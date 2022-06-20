@@ -26,6 +26,20 @@ doubleBet = pg.image.load("pictures/doubleBet.png")
 COLOR_INACTIVE = pg.Color('lightskyblue3')
 COLOR_ACTIVE = pg.Color('dodgerblue2')
 
+try:
+    foundationProject.createTables(1)
+except:
+    print("Handoutcomes already created")
+try:
+    foundationProject.createTables(2)
+except:
+    print("Recommendations Table already created")
+try:
+    foundationProject.createTables(3)
+except:
+    print("Probabilities Table already created")
+
+
 class dealerHand:
     #Inits dealer hand, the total value, the value showed to the player, the x and y cords for their card pics and whether or not their hand is soft
     def __init__(self):
