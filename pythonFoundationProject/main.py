@@ -369,6 +369,9 @@ def drawTableWin():
     instruction5 = my_font.render('Press 4 to declare custom recommendation', False, (255, 255, 255))
     win.blit(instruction5, (50, 700))
 
+    instruction6 = my_font.render('Press 5 to view total simulated games', False, (255, 255, 255))
+    win.blit(instruction6, (50, 750))
+
 def tableShowReco():
     #Carries out press 1 action on SQL window
     drawTableWin()
@@ -425,38 +428,10 @@ def tableMoreSims():
          
         pg.display.flip()
 
-def customRecosTable():
-    pass
-
-def clearAllTablesWin():
-    inputBox = InputBox(550, 350, 140, 32)
-    total = my_font.render('Clear all tables? (y/n): ', False, (255, 255, 255))
+def totalSimGames():
+    total = my_font.render('Total Games Simulated: ' + str(foundationProject.totalSims()), False, (255, 255, 255))
     win.blit(total, (50, 350))
-    run2 = True
-    while run2:
-        for event in pg.event.get():
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_RETURN or event.key == pg.K_KP_ENTER:
-                    if inputBox.text.lower() == 'y':
-                        running = my_font.render('Clearing Tables...', False, (255, 255, 255))
-                        win.blit(running, (200, 420))
-                        pg.display.update()
-                        time.sleep(2)
-                        foundationProject.truncateAllTables()
-                        drawTableWin()
-                        pg.display.update()
-                        return
-                    else:
-                        drawTableWin()
-                        pg.display.update()
-                        return
-
-            inputBox.handle_event(event)
-            
-        inputBox.update()
-        inputBox.draw(win)
-         
-        pg.display.flip()
+    pg.display.update()
 
 def customRecosWin():
     inputBox1 = InputBox(280, 280, 50, 32)
@@ -528,9 +503,8 @@ def TableWin():
                         drawTableWin()
                     except:
                         drawTableWin()
-                if event.key == pg.K_6:
-                    print(foundationProject.countTotal())
-                
+                if event.key == pg.K_5 or event.key == pg.K_KP_5:
+                    totalSimGames()
                 
         pg.display.update()
 

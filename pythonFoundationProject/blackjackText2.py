@@ -1,6 +1,5 @@
 import random
 import keyboard
-import sqlFunctions
 import mysql.connector
 
 class Hand:
@@ -118,7 +117,7 @@ def fillHandOutcomes(num):
     db = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="mySQLPassword",
+    passwd="mySQLpassword",
     database = "PythonFoundationProject"
     )
 

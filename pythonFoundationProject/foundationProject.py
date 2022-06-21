@@ -1,20 +1,6 @@
 import sqlFunctions
 import blackjackText2
 
-
-# sqlFunctions.createHandOutcomes()
-# blackjackText2.fillHandOutcomes(10)
-
-# sqlFunctions.truncateTable("HandOutcomes")
-# sqlFunctions.truncateTable("Recommendations")
-# sqlFunctions.truncateTable("WinProbabilities")
-
-
-# sqlFunctions.showTable("HandOutcomes")
-# sqlFunctions.fillHandProbs()
-# sqlFunctions.showTable("WinProbabilities")
-# sqlFunctions.fillRecos()
-
 def truncateAllTables():
     
     sqlFunctions.truncateTable("Recommendations")
@@ -49,6 +35,6 @@ def createTables(num):
         sqlFunctions.createRecos()
     elif num == 3:
         sqlFunctions.createWinProbabilities()
-# sqlFunctions.createRecos()
-# fillTables(1000)
-# truncateAllTables()
+
+def totalSims():
+    return sqlFunctions.totalSimmedGames()
