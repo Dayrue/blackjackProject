@@ -16,11 +16,13 @@ import blackjackText2
 # sqlFunctions.fillRecos()
 
 def truncateAllTables():
-    sqlFunctions.truncateTable("HandOutcomes")
+    
     sqlFunctions.truncateTable("Recommendations")
     sqlFunctions.truncateTable("WinProbabilities")
+    sqlFunctions.truncateTable("HandOutcomes")
 
 def updateTables(num):
+    print(num)
     blackjackText2.fillHandOutcomes(num)
     sqlFunctions.fillHandProbs()
     sqlFunctions.fillRecos()
@@ -36,6 +38,17 @@ def customReco(hand, recommend):
 
 def countTotal():
     return sqlFunctions.countTotalHands()
+
+def createDatabase():
+    sqlFunctions.createDatabase()
+
+def createTables(num):
+    if num == 1:
+        sqlFunctions.createHandOutcomes()
+    elif num == 2:
+        sqlFunctions.createRecos()
+    elif num == 3:
+        sqlFunctions.createWinProbabilities()
 # sqlFunctions.createRecos()
 # fillTables(1000)
 # truncateAllTables()

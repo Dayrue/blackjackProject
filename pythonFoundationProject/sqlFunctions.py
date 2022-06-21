@@ -4,19 +4,23 @@ import blackjackText2
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="mySQLpassword",
+    passwd="Dayfly1455$",
     database = "PythonFoundationProject"
     )
 
 mycursor = db.cursor(buffered=True)
 
+
+
 def dropTable(table):
     mycursor.execute("DROP TABLE " + str(table))
 
+
+
+
 def createHandOutcomes():
     mycursor.execute("""CREATE TABLE HandOutcomes (handNumber int PRIMARY KEY AUTO_INCREMENT, handIdentifier varchar(50), 
-                    dealerValue int, playerValue int, action varchar(50), result varchar(50)
-                    FOREIGN KEY(handIdentifier) references WinProbabilities(handIdentifier))""")
+                    dealerValue int, playerValue int, action varchar(50), result varchar(50));""")
 
 def createWinProbabilities():
     mycursor.execute("CREATE TABLE WinProbabilities (handIdentifier varchar(50) PRIMARY KEY, hitWinProb varchar(50), standWinProb varchar(50), totalWinProb varchar(50), totalLossProb varchar(50))")
@@ -24,12 +28,13 @@ def createWinProbabilities():
 
 def createRecos():
     mycursor.execute("CREATE TABLE Recommendations (handIdentifier varchar(50) PRIMARY KEY, recommendation varchar(50))")
-    
+
+
 
 def fillRecos():
     mycursor.execute("TRUNCATE TABLE Recommendations")
     for i in range(2, 12):
-        for x in range(12, 21):
+        for x in range(12, 22):
             mycursor.execute(f"INSERT INTO Recommendations (handIdentifier) VALUES ({str(i)}{str(x)})")
     db.commit()
 
@@ -54,7 +59,6 @@ def fillRecos():
             mycursor.execute("UPDATE Recommendations SET recommendation = 'Stand' WHERE handIdentifier = " + str(i[0]))
             db.commit()
 
-
 def truncateTable(table):
     mycursor.execute("TRUNCATE TABLE " + str(table))
 
@@ -64,14 +68,16 @@ def showTable(table):
         print(i)
 
 def fillHandProbs():
-    mycursor.execute("TRUNCATE TABLE winProbabilities")
+    # mycursor.execute("TRUNCATE TABLE winProbabilities")
+    # for i in range(2, 12):
+    #     for x in range(12, 22):
+    #         mycursor.execute(f"INSERT INTO WinProbabilities (handIdentifier) VALUES ({str(i) + str(x)})")
+    #         db.commit()
+    
     for i in range(2, 12):
-        for x in range(12, 21):
-            mycursor.execute(f"INSERT INTO WinProbabilities (handIdentifier) VALUES ({str(i) + str(x)})")
-            db.commit()
-    for i in range(2, 12):
-        for x in range(12, 21):
+        for x in range(12, 22):
             fillHandProbsCon(str(i) + str(x))
+
 
 def fillHandProbsCon(hand):
     mycursor.execute(f"SELECT COUNT(*) FROM HandOutcomes WHERE handIdentifier = {hand} AND action = 'Hit'")
@@ -139,3 +145,20 @@ def countTotalHands():
     mycursor.execute("SELECT COUNT(*) FROM HandOutcomes")
     for i in mycursor:
         return i[0]
+
+def createDatabase():
+    mycursor.execute("CREATE DATABASE PythonFoundationProject")
+
+def createForeignKey():
+    mycursor.execute("ALTER TABLE HandOutcomes ADD FOREIGN KEY (HandIdentifier) REFERENCES WinProbabilities(handIdentifier);")
+
+# createHandOutcomes()
+# createRecos()
+# createWinProbabilities()
+
+# dropTable("HandOutcomes")
+# dropTable("WinProbabilities")
+# dropTable("Recommendations")
+# createForeignKey()
+# fillRecos()
+# fillHandProbs()

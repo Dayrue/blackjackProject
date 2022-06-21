@@ -26,20 +26,6 @@ doubleBet = pg.image.load("pictures/doubleBet.png")
 COLOR_INACTIVE = pg.Color('lightskyblue3')
 COLOR_ACTIVE = pg.Color('dodgerblue2')
 
-try:
-    foundationProject.createTables(1)
-except:
-    print("Handoutcomes already created")
-try:
-    foundationProject.createTables(2)
-except:
-    print("Recommendations Table already created")
-try:
-    foundationProject.createTables(3)
-except:
-    print("Probabilities Table already created")
-
-
 class dealerHand:
     #Inits dealer hand, the total value, the value showed to the player, the x and y cords for their card pics and whether or not their hand is soft
     def __init__(self):
@@ -253,13 +239,11 @@ def winLogic(d, p, bet):
         p.balance -= bet
     pg.display.update()
 
-
 def startGame(d, p):
     #resets the game
     initialDeal(d, p)
     calcValue(d, True)    
     calcValue(p)
-
 
 def draw_window(surface, showDeal):
     #Displays all messages for the main gameboard
@@ -324,7 +308,6 @@ def betScreen():
 
     pg.display.update()
 
-
 def restartGame(d, p, cards):
     #Restarts the game
     d = dealerHand()
@@ -383,11 +366,8 @@ def drawTableWin():
     instruction4 = my_font.render('Press 3 to run more simulations', False, (255, 255, 255))
     win.blit(instruction4, (50, 650))
 
-    instruction5 = my_font.render('Press 4 to clear all tables', False, (255, 255, 255))
+    instruction5 = my_font.render('Press 4 to declare custom recommendation', False, (255, 255, 255))
     win.blit(instruction5, (50, 700))
-
-    instruction6 = my_font.render('Press 5 to declare custom recommendation', False, (255, 255, 255))
-    win.blit(instruction6, (50, 750))
 
 def tableShowReco():
     #Carries out press 1 action on SQL window
@@ -538,10 +518,6 @@ def TableWin():
                     drawTableWin()
                 if event.key == pg.K_4 or event.key == pg.K_KP_4:
                     drawTableWin()
-                    clearAllTablesWin()
-                    drawTableWin()
-                if event.key == pg.K_5 or event.key == pg.K_KP_5:
-                    drawTableWin()
                     try:
                         holder = customRecosWin()
                         dealerVal = holder[0]
@@ -682,7 +658,6 @@ while run:
             changeBet = True
             time.sleep(1.5)
             betScreen()
-
 
     if not gameOver:
         draw_window(win, showDeal)
