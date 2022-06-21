@@ -118,7 +118,7 @@ def fillHandOutcomes(num):
     db = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="Dayfly1455$",
+    passwd="mySQLPassword",
     database = "PythonFoundationProject"
     )
 

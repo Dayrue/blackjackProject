@@ -4,7 +4,7 @@ import blackjackText2
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="Dayfly1455$",
+    passwd="mySQLPassword",
     database = "PythonFoundationProject"
     )
 
@@ -68,12 +68,6 @@ def showTable(table):
         print(i)
 
 def fillHandProbs():
-    # mycursor.execute("TRUNCATE TABLE winProbabilities")
-    # for i in range(2, 12):
-    #     for x in range(12, 22):
-    #         mycursor.execute(f"INSERT INTO WinProbabilities (handIdentifier) VALUES ({str(i) + str(x)})")
-    #         db.commit()
-    
     for i in range(2, 12):
         for x in range(12, 22):
             fillHandProbsCon(str(i) + str(x))
@@ -151,14 +145,3 @@ def createDatabase():
 
 def createForeignKey():
     mycursor.execute("ALTER TABLE HandOutcomes ADD FOREIGN KEY (HandIdentifier) REFERENCES WinProbabilities(handIdentifier);")
-
-# createHandOutcomes()
-# createRecos()
-# createWinProbabilities()
-
-# dropTable("HandOutcomes")
-# dropTable("WinProbabilities")
-# dropTable("Recommendations")
-# createForeignKey()
-# fillRecos()
-# fillHandProbs()
