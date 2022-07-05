@@ -1,6 +1,6 @@
 import random
 import keyboard
-import mysql.connector
+import sqlFunctions
 
 class Hand:
     def __init__(self):
@@ -113,16 +113,8 @@ def winLogic(d, p):
     else:
         return "Loss"
 
+
 def fillHandOutcomes(num):
-    db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="Dayfly1455$",
-    database = "PythonFoundationProject"
-    )
-
-    mycursor = db.cursor()
-
     cards = ["2h", "3h", "4h", "5h", "6h", "7h", "8h", "9h", "10h", "Jh", "Qh", "Kh", "Ah",
         "2d", "3d", "4d", "5d", "6d", "7d", "8d", "9d", "10d", "Jd", "Qd", "Kd", "Ad",
         "2c", "3c", "4c", "5c", "6c", "7c", "8c", "9c", "10c", "Jc", "Qc", "Kc", "Ac",
@@ -146,8 +138,7 @@ def fillHandOutcomes(num):
         outcome = winLogic(d, p)
 
         if outcome != "Blackjack" and not (len(d.hand) == 2 and d.handValue == 21):
-            mycursor.execute("INSERT INTO handOutcomes (handIdentifier, dealerValue, playerValue, action, result) VALUES (%s, %s, %s, %s, %s)", (str(d.initialValue) + str(p.initialValue), d.initialValue, p.initialValue, action, outcome))
-            db.commit()
+            sqlFunctions.insertHandoutcomes(d.initialValue, p.initialValue, action, outcome)
             i += 1
 
         if len(cards) <= 10:

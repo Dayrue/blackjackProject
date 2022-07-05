@@ -1,8 +1,9 @@
+import sqlFunctions
+import blackjackText
 import random
 import pygame as pg
 import os
 import time
-import foundationProject
 
 #Allows me to not have to put full directory path for pictures or other files
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -25,6 +26,8 @@ doubleBet = pg.image.load("pictures/doubleBet.png")
 #sets the colors for input box when choosing to run simulations
 COLOR_INACTIVE = pg.Color('lightskyblue3')
 COLOR_ACTIVE = pg.Color('dodgerblue2')
+
+sqlFunctions.createTables()
 
 class dealerHand:
     #Inits dealer hand, the total value, the value showed to the player, the x and y cords for their card pics and whether or not their hand is soft
@@ -261,7 +264,7 @@ def draw_window(surface, showDeal):
     if p.handValue <= 11:
         reco = "Hit"
     else:
-        reco = foundationProject.getRecommendation(str(d.handValue) + str(p.handValue))
+        reco = sqlFunctions.getRecommendation(str(d.handValue) + str(p.handValue))
 
     recommendation = my_font.render((f'Recommended: {reco}'), False, (255, 255, 255))
     surface.blit(recommendation, (100, 750))
@@ -375,16 +378,16 @@ def drawTableWin():
 def tableShowReco():
     #Carries out press 1 action on SQL window
     drawTableWin()
-    reco = my_font.render(f'Recommendation: {foundationProject.getRecommendation(str(d.handValue) + str(p.handValue))}', False, (255, 255, 255))
+    reco = my_font.render(f'Recommendation: {sqlFunctions.getRecommendation(str(d.handValue) + str(p.handValue))}', False, (255, 255, 255))
     win.blit(reco, (50, 450))
 
 def tableShowFullProbs():
     #Show complete win loss probs on SQL window
     try:
         drawTableWin()
-        hitWin = foundationProject.getWinProbs(str(d.handValue) + str(p.handValue))[0]
-        standWin = foundationProject.getWinProbs(str(d.handValue) + str(p.handValue))[1]
-        totalWin = foundationProject.getWinProbs(str(d.handValue) + str(p.handValue))[2]
+        hitWin = sqlFunctions.getFullWinProbs(str(d.handValue) + str(p.handValue))[0]
+        standWin = sqlFunctions.getFullWinProbs(str(d.handValue) + str(p.handValue))[1]
+        totalWin = sqlFunctions.getFullWinProbs(str(d.handValue) + str(p.handValue))[2]
         hit = my_font.render(f'Hit Win Prob.: {hitWin}', False, (255, 255, 255))
         win.blit(hit, (50, 300))
         stand = my_font.render(f'Stand Win Prob.: {standWin}', False, (255, 255, 255))
@@ -429,7 +432,7 @@ def tableMoreSims():
         pg.display.flip()
 
 def totalSimGames():
-    total = my_font.render('Total Games Simulated: ' + str(foundationProject.totalSims()), False, (255, 255, 255))
+    total = my_font.render('Total Games Simulated: ' + str(sqlFunctions.totalSimmedGames()), False, (255, 255, 255))
     win.blit(total, (50, 350))
     pg.display.update()
 
@@ -489,7 +492,7 @@ def TableWin():
                     tableShowFullProbs()
                 if event.key == pg.K_3 or event.key == pg.K_KP_3:
                     drawTableWin()
-                    foundationProject.updateTables(int(tableMoreSims()))
+                    sqlFunctions.updateTables(int(tableMoreSims()))
                     drawTableWin()
                 if event.key == pg.K_4 or event.key == pg.K_KP_4:
                     drawTableWin()
@@ -499,7 +502,7 @@ def TableWin():
                         playerVal = holder[1]
                         recommend = holder[2]
                         hand = str(dealerVal) + str(playerVal)
-                        foundationProject.customReco(hand, recommend)
+                        sqlFunctions.insertReco(hand, recommend)
                         drawTableWin()
                     except:
                         drawTableWin()
@@ -641,3 +644,8 @@ while run:
 with open("playerBalance.txt", "w") as f:
     f.write(str(p.balance))
     f.close()
+
+
+sqlFunctions.createTables()
+blackjackText.fillHandOutcomes(10)
+

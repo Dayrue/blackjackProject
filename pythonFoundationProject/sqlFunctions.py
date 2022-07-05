@@ -4,7 +4,7 @@ import blackjackText2
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="mySQLpassword",
+    passwd="Dayfly1455$",
     database = "PythonFoundationProject"
     )
 
